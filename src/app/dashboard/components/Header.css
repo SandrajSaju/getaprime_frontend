@@ -1,0 +1,129 @@
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0, 0.1);
+  border: 1px solid #dedede;
+  border-radius: 0.5rem;
+  z-index: 50;
+  padding: 10px;
+  gap: 1rem;
+}
+
+.profile-dropdown > .top-section {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.userdetails-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+  align-items: start;
+}
+
+.pp, .pp-default {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pp-default {
+  display: flex;
+  font-weight: 600;
+  font-size: 28px;
+  flex-shrink: 0;
+  background-color: #ff9920;
+  justify-content: center;
+  align-items: center;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: black;
+}
+
+.user-role {
+  font-size: 12px;
+  color: gray;
+}
+
+.middle-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+
+.option-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.option-container:hover {
+  transform: scale(1.05);
+}
+
+.option-container > p {
+  font-size: 1rem;
+}
+
+.logout-button {
+  color: firebrick;
+}
+
+.bottom-section {
+  display: flex;
+  font-size: 12px;
+  gap: 4px;
+  justify-content: center;
+  align-items: start;
+  border-top: 1px solid #dedede;
+  padding: 8px 0px;
+}
+
+.bottom-section > li {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+  transform-origin: center bottom;
+}
+
+.bottom-section li:hover {
+  transform: scale(1.05);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.bottom-section li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 0;
+  height: 1px;
+  background-color: #a855f7;
+  transition: width 0.3s ease;
+}
+
+.bottom-section li:hover::after {
+  width: 100%;
+}
