@@ -52,13 +52,13 @@ const SideNavBar: React.FC = () => {
         {
             key: "features",
             name: "Features",
-            link: "/features",
+            link: "/dashboard/features",
             icon: <MdOutlineReport className="mr-3 text-lg" />,
         },
         {
             key: "subscription",
             name: "Subscription",
-            link: "/subscription",
+            link: "/dashboard/pricing",
             icon: <BiWallet className="mr-3 text-lg" />,
         },
         {
