@@ -2,7 +2,7 @@
 'use client';
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import { fetchTiersWithFeatures } from "../../../../redux/slices/profileSlice";
+import { fetchTiersWithFeatures, updateTier } from "../../../../redux/slices/profileSlice";
 import { RootState } from "../../../../redux/store";
 import Loader from "@/app/components/Loader";
 
@@ -18,6 +18,36 @@ export default function PricingPage() {
 
   const getTierIndex = (id: number) => tiers.findIndex((tier: any) => tier.id === id);
   const currentTierIndex = getTierIndex(userTierId);
+
+  const handlePayment = (tier: any) => {
+    const options: any = {
+      key: "rzp_test_R65f8oB3cMQSHX", // test key from Razorpay Dashboard
+      amount: Math.round(tier.price) * 100, // in paisa      currency: "INR",
+      name: "GETA PRIME",
+      description: `Upgrade to ${tier.name}`,
+      handler: async function (response: any) {
+        console.log("Payment Success", response);
+
+        // ✅ Call API to update tier after payment success
+        try {
+           await dispatch(updateTier(tier.id))
+           dispatch(fetchTiersWithFeatures());
+        } catch (err) {
+          console.error(err);
+          alert("Payment succeeded but failed to update plan!");
+        }
+      },
+      prefill: {
+        name: "John Doe",
+        email: "john@example.com",
+        contact: "6238947404",
+      },
+      theme: { color: "#3399cc" },
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+  };
 
   if (loading) return <Loader text="Loading Subscription Plans..." />;
 
@@ -49,7 +79,7 @@ export default function PricingPage() {
               <p className="text-gray-500 text-sm">{tier.description}</p>
 
               <div className="mt-4">
-                <span className="text-3xl font-bold">${Number(tier.price).toFixed(2)}</span>
+                <span className="text-3xl font-bold">₹{Number(tier.price).toFixed(2)}</span>
                 <span className="text-gray-500 text-sm"> / month</span>
               </div>
 
@@ -81,10 +111,11 @@ export default function PricingPage() {
               {!isLower && (
                 <button
                   className={`mt-auto w-full py-2 px-4 rounded-lg font-medium ${isCurrent
-                      ? "bg-gray-100 text-gray-800 cursor-not-allowed"
-                      : "bg-black text-white hover:bg-gray-800 cursor-pointer"
+                    ? "bg-gray-100 text-gray-800 cursor-not-allowed"
+                    : "bg-black text-white hover:bg-gray-800 cursor-pointer"
                     }`}
                   disabled={isCurrent}
+                  onClick={() => !isCurrent && handlePayment(tier)}
                 >
                   {isCurrent ? "Current Plan" : "Upgrade"}
                 </button>

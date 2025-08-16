@@ -34,15 +34,15 @@ export default function DashboardPage() {
     }
   };
 
-  // Group features by category
-  const categories: string[] = Array.from(new Set(availableFeatures.map((f: any) => f.category)));
-
   useEffect(()=>{
     dispatch(fetchFeaturesByAvailability())
   }, []);
 
   if (checkingForLoginState) return <Loader text="Loading your dashboard..." />;
   if (loading) return <Loader text="Fetching the dashboard contents" />;
+
+  // Group features by category
+  const categories: string[] = Array.from(new Set(availableFeatures.map((f: any) => f.category)));
 
   return (
     <div className="p-8 px-10 space-y-10">

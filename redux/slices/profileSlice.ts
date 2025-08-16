@@ -61,6 +61,18 @@ export const fetchFeaturesByAvailability = createAsyncThunk(
   }
 );
 
+export const updateTier = createAsyncThunk(
+  "profile/fetchDashboardDetails",
+  async (tierId: string, { rejectWithValue }) => {
+    try {
+      const res = await AXIOS.post(`/profile/update-tier`, {tierId});
+      return res.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 const profileSlice = createSlice({
   name: "profile",
   initialState,
