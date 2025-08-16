@@ -10,7 +10,7 @@ import Loader from "@/app/components/Loader";
 export default function FeatureDetailPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { featureDetails, loading, error } = useAppSelector(
+  const { featureDetails, featureDetailsLoading, error } = useAppSelector(
       (state: RootState) => state.profile
     );
 
@@ -39,7 +39,7 @@ export default function FeatureDetailPage() {
       dispatch(fetchFeatureDetailsbyId(id));
     }, [dispatch]);
 
-  if (loading) return <Loader text="Loading Feature Details..." />;
+  if (featureDetailsLoading) return <Loader text="Loading Feature Details..." />;
 
   return (
     <div className="p-8 space-y-10 px-10">
