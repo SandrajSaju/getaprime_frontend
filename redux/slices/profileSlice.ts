@@ -7,6 +7,7 @@ const initialState: any = {
   features: [],
   tiers: [],
   userTierId: null,
+  featureDetails: null,
 };
 
 export const fetchFeatures = createAsyncThunk(
@@ -26,6 +27,18 @@ export const fetchTiersWithFeatures = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await AXIOS.get("/profile/tier-wise-features");
+      return res.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
+export const fetchFeatureDetailsbyId = createAsyncThunk(
+  "profile/fetchFeatureDetailsbyId",
+  async (featureId: string, { rejectWithValue }) => {
+    try {
+      const res = await AXIOS.get(`/profile/get-feature/${featureId}`);
       return res.data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data || err.message);
@@ -63,7 +76,20 @@ const profileSlice = createSlice({
       .addCase(fetchTiersWithFeatures.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+      .addCase(fetchFeatureDetailsbyId.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchFeatureDetailsbyId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.featureDetails = action.payload;
+      })
+      .addCase(fetchFeatureDetailsbyId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 

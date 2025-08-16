@@ -16,6 +16,9 @@ export default function PricingPage() {
     dispatch(fetchTiersWithFeatures());
   }, [dispatch]);
 
+  const getTierIndex = (id: number) => tiers.findIndex((tier: any) => tier.id === id);
+  const currentTierIndex = getTierIndex(userTierId);
+
   if (loading) return <Loader text="Loading Subscription Plans..." />;
 
   return (
@@ -30,57 +33,66 @@ export default function PricingPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {tiers.map((tier: any) => (
-          <div
-            key={tier.id}
-            className={`border rounded-lg p-6 flex flex-col ${
-              userTierId === tier.id ? "bg-green-50 border-green-300" : "bg-white"
-            }`}
-          >
-            <h3 className="text-lg font-semibold">{tier.name}</h3>
-            <p className="text-gray-500 text-sm">{tier.description}</p>
+        {tiers.map((tier: any, index: number) => {
 
-            <div className="mt-4">
-              <span className="text-3xl font-bold">${Number(tier.price).toFixed(2)}</span>
-              <span className="text-gray-500 text-sm"> / month</span>
-            </div>
+          const isCurrent = userTierId === tier.id;
+          const isLower = index < currentTierIndex;
+          const isHigher = index > currentTierIndex;
 
-            <ul className="mt-6 space-y-2">
-              {tier.includesText && (
-                <li className="text-gray-700 font-medium">
-                  {tier.includesText}
-                </li>
-              )}
-              {tier.features.map((feature: any) => (
-                <li key={feature.id} className="flex items-center gap-2 text-gray-700">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  {feature.name}
-                </li>
-              ))}
-            </ul>
-            <button
-              className={`mt-auto w-full py-2 px-4 rounded-lg font-medium ${
-                userTierId === tier.id
-                  ? "bg-gray-100 text-gray-800"
-                  : "bg-black text-white hover:bg-gray-800 cursor-pointer"
-              }`}
+          return (
+            <div
+              key={tier.id}
+              className={`border rounded-lg p-6 flex flex-col ${userTierId === tier.id ? "bg-green-100 border-green-300" : "bg-white"
+                }`}
             >
-              {userTierId === tier.id ? "Current Plan" : "Upgrade"}
-            </button>
-          </div>
-        ))}
+              <h3 className="text-lg font-semibold">{tier.name}</h3>
+              <p className="text-gray-500 text-sm">{tier.description}</p>
+
+              <div className="mt-4">
+                <span className="text-3xl font-bold">${Number(tier.price).toFixed(2)}</span>
+                <span className="text-gray-500 text-sm"> / month</span>
+              </div>
+
+              <ul className="mt-6 space-y-2">
+                {tier.includesText && (
+                  <li className="text-gray-700 font-medium">
+                    {tier.includesText}
+                  </li>
+                )}
+                {tier.features.map((feature: any) => (
+                  <li key={feature.id} className="flex items-center gap-2 text-gray-700">
+                    <svg
+                      className="w-5 h-5 text-green-500 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    {feature.name}
+                  </li>
+                ))}
+              </ul>
+              {!isLower && (
+                <button
+                  className={`mt-auto w-full py-2 px-4 rounded-lg font-medium ${isCurrent
+                      ? "bg-gray-100 text-gray-800 cursor-not-allowed"
+                      : "bg-black text-white hover:bg-gray-800 cursor-pointer"
+                    }`}
+                  disabled={isCurrent}
+                >
+                  {isCurrent ? "Current Plan" : "Upgrade"}
+                </button>
+              )}
+            </div>
+          )
+        }
+        )}
       </div>
     </div>
   );

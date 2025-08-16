@@ -1,10 +1,18 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LockClosedIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { fetchFeatureDetailsbyId } from "../../../../../redux/slices/profileSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
+import { RootState } from "../../../../../redux/store";
+import Loader from "@/app/components/Loader";
 
 export default function FeatureDetailPage() {
-  const { featureKey } = useParams<{ featureKey: string }>();
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
+  const { featureDetails, loading, error } = useAppSelector(
+      (state: RootState) => state.profile
+    );
 
   // Dummy feature (you will replace with API call using featureKey)
   const feature = {
@@ -12,7 +20,7 @@ export default function FeatureDetailPage() {
     description:
       "Gain deep insights into your business performance with real-time dashboards, AI-powered insights, and customizable reporting tools.",
     category: "Analytics",
-    unlocked: true, // Change to true to test unlocked state
+    unlocked: false, // Change to true to test unlocked state
     benefits: [
       "Real-time KPI tracking",
       "AI-powered trend predictions",
@@ -27,6 +35,12 @@ export default function FeatureDetailPage() {
 
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
+  useEffect(() => {
+      dispatch(fetchFeatureDetailsbyId(id));
+    }, [dispatch]);
+
+  if (loading) return <Loader text="Loading Feature Details..." />;
+
   return (
     <div className="p-8 space-y-10 px-10">
       {/* Hero Section */}
@@ -34,10 +48,10 @@ export default function FeatureDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-90" />
         <div className="relative p-10 text-white">
           <span className="px-3 py-1 text-sm bg-white/20 rounded-full backdrop-blur-sm">
-            {feature.category}
+            {featureDetails.category}
           </span>
-          <h1 className="text-4xl font-extrabold mt-4">{feature.name}</h1>
-          <p className="text-lg max-w-3xl mt-3">{feature.description}</p>
+          <h1 className="text-4xl font-extrabold mt-4">{featureDetails.name}</h1>
+          <p className="text-lg max-w-3xl mt-3">{featureDetails.description}</p>
         </div>
       </div>
 
