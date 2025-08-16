@@ -14,27 +14,6 @@ export default function FeatureDetailPage() {
       (state: RootState) => state.profile
     );
 
-  // Dummy feature (you will replace with API call using featureKey)
-  const feature = {
-    name: "Advanced Analytics",
-    description:
-      "Gain deep insights into your business performance with real-time dashboards, AI-powered insights, and customizable reporting tools.",
-    category: "Analytics",
-    unlocked: false, // Change to true to test unlocked state
-    benefits: [
-      "Real-time KPI tracking",
-      "AI-powered trend predictions",
-      "Customizable dashboards",
-      "Exportable PDF & Excel reports",
-    ],
-    examples: [
-      { title: "Sales Performance Dashboard", img: "/placeholder1.png" },
-      { title: "Customer Retention Report", img: "/placeholder2.png" },
-    ],
-  };
-
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-
   useEffect(() => {
       dispatch(fetchFeatureDetailsbyId(id));
     }, [dispatch]);
@@ -56,9 +35,8 @@ export default function FeatureDetailPage() {
       </div>
 
       {/* Unlocked View */}
-      {feature.unlocked ? (
+      {/* {feature.unlocked ? (
         <div className="space-y-10">
-          {/* Benefits */}
           <div>
             <h2 className="text-2xl font-bold mb-5">Key Benefits</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -73,8 +51,6 @@ export default function FeatureDetailPage() {
               ))}
             </ul>
           </div>
-
-          {/* Usage Examples */}
           <div>
             <h2 className="text-2xl font-bold mb-5">Usage Examples</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -95,7 +71,6 @@ export default function FeatureDetailPage() {
           </div>
         </div>
       ) : (
-        /* Locked View */
         <div className="bg-white rounded-2xl p-8 shadow-lg space-y-6">
           <div className="flex items-center gap-3">
             <LockClosedIcon className="h-8 w-8 text-gray-500" />
@@ -105,7 +80,7 @@ export default function FeatureDetailPage() {
             This premium feature helps you gain valuable insights and drive
             growth. Upgrade to access all the tools you need for success.
           </p>
-          <h3 className="font-semibold mt-4">What you’ll get:</h3>
+          <h3 className="font-semibold mt-4">What you'll get:</h3>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
             {feature.benefits.map((b) => (
               <li key={b}>{b}</li>
@@ -120,33 +95,7 @@ export default function FeatureDetailPage() {
             </button>
           </div>
         </div>
-      )}
-
-      {/* Upgrade Modal */}
-      {showUpgradeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 transform transition-all animate-fadeIn">
-            <h2 className="text-3xl font-bold mb-4">
-              Upgrade to Unlock {feature.name}
-            </h2>
-            <p className="text-gray-600 mb-6 text-lg">
-              Get instant access to {feature.name} and other premium features
-              with our Standard or Premium plans.
-            </p>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowUpgradeModal(false)}
-                className="px-5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 transition"
-              >
-                Cancel
-              </button>
-              <button className="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium shadow-lg hover:from-purple-600 hover:to-indigo-700 transition">
-                Upgrade Plan
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      )} */}
     </div>
   );
 }

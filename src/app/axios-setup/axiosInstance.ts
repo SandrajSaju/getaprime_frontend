@@ -33,30 +33,11 @@ AXIOS.interceptors.response.use(
         if (res.status === 200) {
           localStorage.setItem("accessToken", res.data.tokens.accessToken);
           localStorage.setItem("refreshToken", res.data.tokens.refreshToken);
-          const accessToken = res.data.tokens.accessToken;
-          // Split the token into parts
-          const base64Url = accessToken.split(".")[1];
-          // Decode the base64Url encoded payload
-          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-          const jsonPayload = decodeURIComponent(
-            atob(base64)
-              .split("")
-              .map(function (c) {
-                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-              })
-              .join("")
-          );
-
-          const accessTokenPayload = JSON.parse(jsonPayload);
-          localStorage.setItem(
-            "isTrialExpired",
-            accessTokenPayload.isTrialExpired
-          );
           return AXIOS(originalRequest);
         }
       });
     } else if (error.response.status === 403) {
-        
+        window.location.href = "/access-denied";
     }
     return Promise.reject(error);
   }
