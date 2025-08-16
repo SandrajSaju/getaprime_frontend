@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import Stepper from "./components/registerStepper";
 import useAuth from "@/hooks/useAuth";
 import Loader from "../components/Loader";
+import SignUp from "./components/registerStepper";
 
 export default function SignupPage() {
     const { checkingForLoginState } = useAuth({ redirectIfLoggedIn: true }); // redirect if logged in
@@ -32,9 +32,8 @@ export default function SignupPage() {
                             objectFit="contain"
                             priority
                         />
-                        <p className="text-2xl text-gray-500">Sign Up</p>
                     </div>
-                    <Stepper />
+                    <SignUp />
                 </div>
             </div>
         </>
