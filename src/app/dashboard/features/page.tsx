@@ -15,13 +15,13 @@ export default function FeaturesPage() {
 
   const categories = [
     "All",
-    ...new Set(features.map((f: any) => f.category)),
+    ...new Set(features?.map((f: any) => f.category)),
   ];
 
   const filteredFeatures =
     selectedCategory === "All"
       ? features
-      : features.filter((f: any) => f.category === selectedCategory);
+      : features?.filter((f: any) => f.category === selectedCategory);
 
   useEffect(() => {
     dispatch(fetchFeatures());
@@ -39,7 +39,7 @@ export default function FeaturesPage() {
 
       {/* Category Filter */}
       <div className="flex justify-center gap-3 mb-6 flex-wrap">
-        {categories.map((cat: any) => (
+        {categories?.map((cat: any) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
@@ -65,7 +65,7 @@ export default function FeaturesPage() {
             </tr>
           </thead>
           <tbody>
-            {filteredFeatures.map((feature: any, idx: number) => (
+            {filteredFeatures?.map((feature: any, idx: number) => (
               <tr
                 key={idx}
                 className={idx % 2 === 0 ? "bg-gray-50" : "bg-white"}

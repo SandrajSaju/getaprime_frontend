@@ -48,10 +48,10 @@ export default function FeatureDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-90" />
         <div className="relative p-10 text-white">
           <span className="px-3 py-1 text-sm bg-white/20 rounded-full backdrop-blur-sm">
-            {featureDetails.category}
+            {featureDetails?.category}
           </span>
-          <h1 className="text-4xl font-extrabold mt-4">{featureDetails.name}</h1>
-          <p className="text-lg max-w-3xl mt-3">{featureDetails.description}</p>
+          <h1 className="text-4xl font-extrabold mt-4">{featureDetails?.name}</h1>
+          <p className="text-lg max-w-3xl mt-3">{featureDetails?.description}</p>
         </div>
       </div>
 

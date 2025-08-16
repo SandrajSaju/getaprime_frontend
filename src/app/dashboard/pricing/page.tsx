@@ -16,7 +16,7 @@ export default function PricingPage() {
     dispatch(fetchTiersWithFeatures());
   }, [dispatch]);
 
-  const getTierIndex = (id: number) => tiers.findIndex((tier: any) => tier.id === id);
+  const getTierIndex = (id: number) => tiers?.findIndex((tier: any) => tier.id === id);
   const currentTierIndex = getTierIndex(userTierId);
 
   const handlePayment = (tier: any) => {
@@ -63,7 +63,7 @@ export default function PricingPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {tiers.map((tier: any, index: number) => {
+        {tiers?.map((tier: any, index: number) => {
 
           const isCurrent = userTierId === tier.id;
           const isLower = index < currentTierIndex;

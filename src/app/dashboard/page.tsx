@@ -14,8 +14,9 @@ import {
 import { useRouter } from "next/navigation";
 import UpgradeModal from "./components/UpgradeModal";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { fetchFeaturesByAvailability } from "../../../redux/slices/profileSlice";
+import { fetchFeaturesByAvailability, fetchTiersWithFeatures } from "../../../redux/slices/profileSlice";
 import { RootState } from "../../../redux/store";
+import UpgradeSubscriptionModal from "./components/UpgradeSubscriptionModal";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function DashboardPage() {
     if (feature.isAvailable) {
       router.push(`/dashboard/features/${feature.id}`);
     } else {
+      dispatch(fetchTiersWithFeatures());
       setShowUpgradeModal(true);
     }
   };
@@ -38,11 +40,13 @@ export default function DashboardPage() {
     dispatch(fetchFeaturesByAvailability())
   }, []);
 
+  console.log(availableFeatures);
+
   if (checkingForLoginState) return <Loader text="Loading your dashboard..." />;
   if (loading) return <Loader text="Fetching the dashboard contents" />;
 
   // Group features by category
-  const categories: string[] = Array.from(new Set(availableFeatures.map((f: any) => f.category)));
+  const categories: string[] = Array.from(new Set(availableFeatures?.map((f: any) => f.category)));
 
   return (
     <div className="p-8 px-10 space-y-10">
@@ -70,8 +74,8 @@ export default function DashboardPage() {
           <h3 className="text-xl font-semibold mb-4">{category}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableFeatures
-              .filter((f: any) => f.category === category)
-              .map((feature:any) => {
+              ?.filter((f: any) => f.category === category)
+              ?.map((feature:any) => {
                 return (
                   <div
                     key={feature.id}
@@ -107,7 +111,7 @@ export default function DashboardPage() {
 
       {/* Upgrade Modal */}
       {showUpgradeModal && (
-        <UpgradeModal setShowUpgradeModal={setShowUpgradeModal} />
+        <UpgradeSubscriptionModal setShowUpgradeModal={setShowUpgradeModal} />
       )}
     </div>
   );
