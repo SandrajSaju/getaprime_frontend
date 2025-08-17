@@ -23,8 +23,8 @@ export default function DashboardPage() {
   const dispatch = useAppDispatch();
   const { checkingForLoginState } = useAuth();
   const { availableFeatures, userTierName, loading, error } = useAppSelector(
-      (state: RootState) => state.profile
-    );
+    (state: RootState) => state.profile
+  );
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const handleClickFeature = (feature: any) => {
@@ -36,7 +36,12 @@ export default function DashboardPage() {
     }
   };
 
-  useEffect(()=>{
+  const handleUpgradePlanClick = () => {
+    dispatch(fetchTiersWithFeatures());
+    setShowUpgradeModal(true);
+  };
+
+  useEffect(() => {
     dispatch(fetchFeaturesByAvailability())
   }, []);
 
@@ -61,7 +66,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <button
-          onClick={() => setShowUpgradeModal(true)}
+          onClick={handleUpgradePlanClick}
           className="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium shadow-lg hover:from-purple-600 hover:to-indigo-700 transition cursor-pointer"
         >
           {userTierName === "Premium" ? "Manage Plan" : "Upgrade Plan"}
@@ -75,7 +80,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableFeatures
               ?.filter((f: any) => f.category === category)
-              ?.map((feature:any) => {
+              ?.map((feature: any) => {
                 return (
                   <div
                     key={feature.id}
@@ -96,7 +101,7 @@ export default function DashboardPage() {
                         <p className="text-sm">{feature.description}</p>
                       </div>
                       {!feature.isAvailable && (
-                        <div className="ml-auto"> 
+                        <div className="ml-auto">
                           <Lock className="w-8 h-8 text-gold-400" color={"indigo"} />
                         </div>
                       )}

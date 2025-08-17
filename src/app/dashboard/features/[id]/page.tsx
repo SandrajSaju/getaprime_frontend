@@ -13,12 +13,12 @@ export default function FeatureDetailPage() {
   const dispatch = useAppDispatch();
   const { checkingForLoginState } = useAuth();
   const { featureDetails, featureDetailsLoading, error } = useAppSelector(
-      (state: RootState) => state.profile
-    );
+    (state: RootState) => state.profile
+  );
 
   useEffect(() => {
-      dispatch(fetchFeatureDetailsbyId(id));
-    }, [dispatch]);
+    dispatch(fetchFeatureDetailsbyId(id));
+  }, [dispatch]);
 
   if (featureDetailsLoading) return <Loader text="Loading Feature Details..." />;
 
@@ -35,69 +35,51 @@ export default function FeatureDetailPage() {
           <p className="text-lg max-w-3xl mt-3">{featureDetails?.description}</p>
         </div>
       </div>
-
-      {/* Unlocked View */}
-      {/* {feature.unlocked ? (
-        <div className="space-y-10">
-          <div>
-            <h2 className="text-2xl font-bold mb-5">Key Benefits</h2>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {feature.benefits.map((benefit) => (
-                <li
-                  key={benefit}
-                  className="flex items-center gap-3 bg-white rounded-xl shadow-sm p-4 hover:shadow-lg transition"
-                >
-                  <CheckCircleIcon className="h-6 w-6 text-green-500" />
-                  <span>{benefit}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold mb-5">Usage Examples</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {feature.examples.map((ex) => (
-                <div
-                  key={ex.title}
-                  className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition bg-white"
-                >
-                  <div className="bg-gray-200 h-44 flex items-center justify-center">
-                    <span className="text-gray-500">{ex.title}</span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold">{ex.title}</h3>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl p-8 shadow-lg space-y-6">
-          <div className="flex items-center gap-3">
-            <LockClosedIcon className="h-8 w-8 text-gray-500" />
-            <h2 className="text-2xl font-bold">Unlock {feature.name}</h2>
-          </div>
-          <p className="text-gray-600">
-            This premium feature helps you gain valuable insights and drive
-            growth. Upgrade to access all the tools you need for success.
+      <div className="space-y-8 px-10">
+        {/* Overview */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800">Overview</h2>
+          <p className="mt-2 text-gray-600 leading-relaxed">
+            This feature helps businesses streamline their workflow by automating
+            repetitive tasks and improving collaboration. It provides detailed insights,
+            customization options, and seamless integration with other tools in your
+            workspace.
           </p>
-          <h3 className="font-semibold mt-4">What you'll get:</h3>
-          <ul className="list-disc list-inside space-y-2 text-gray-700">
-            {feature.benefits.map((b) => (
-              <li key={b}>{b}</li>
-            ))}
+        </section>
+
+        {/* Key Benefits */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800">Key Benefits</h2>
+          <ul className="list-disc list-inside mt-3 space-y-2 text-gray-600">
+            <li>Boosts team productivity with automation.</li>
+            <li>Provides real-time insights and analytics.</li>
+            <li>Simple and intuitive user interface.</li>
+            <li>Fully customizable to match your workflow.</li>
           </ul>
-          <div className="mt-6">
-            <button
-              onClick={() => setShowUpgradeModal(true)}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium shadow-lg hover:from-purple-600 hover:to-indigo-700 transition"
-            >
-              Upgrade Now
-            </button>
-          </div>
-        </div>
-      )} */}
+        </section>
+
+        {/* How It Works */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800">How It Works</h2>
+          <ol className="list-decimal list-inside mt-3 space-y-2 text-gray-600">
+            <li>Enable the feature in your settings panel.</li>
+            <li>Configure preferences based on your needs.</li>
+            <li>Integrate with your existing tools and data.</li>
+            <li>Start using it in your daily workflow instantly.</li>
+          </ol>
+        </section>
+
+        {/* Example Use Case */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800">Example Use Case</h2>
+          <p className="mt-2 text-gray-600 leading-relaxed">
+            Imagine your sales team spends hours manually updating customer records.
+            With this feature, every update is automated, saving hours of work each week
+            while ensuring data accuracy. As a result, your team can focus more on
+            engaging with leads instead of handling repetitive tasks.
+          </p>
+        </section>
+      </div>
     </div>
   );
 }

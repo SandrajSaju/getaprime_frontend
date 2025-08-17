@@ -82,11 +82,11 @@ const Header = () => {
                 {/* User Profile */}
                 <div className="relative" ref={dropdownRef}>
                     <div
-                        className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 py-2 px-1 rounded-lg"
+                        className="flex items-center space-x-2 cursor-pointer hover:bg-gray-200 py-2 px-3 rounded-lg"
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                     >
                         <IoMdPerson className="text-2xl text-white bg-purple-500 rounded-full p-1" />
-                        <span className="hidden lg:block text-xs text-gray-700">
+                        <span className="hidden lg:block text-md text-gray-700">
                             <p className="font-bold">{userName}</p>
                         </span>
                     </div>

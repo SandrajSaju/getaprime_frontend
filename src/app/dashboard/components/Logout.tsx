@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from "react";
 
 interface LogoutModalProps {
-  handleLogout: () => void;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    handleLogout: () => void;
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LogoutModal: React.FC<LogoutModalProps> = ({ handleLogout, setIsModalOpen }) => {
     return (
         <div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50"
             onClick={() => setIsModalOpen(false)}
         >
             <div

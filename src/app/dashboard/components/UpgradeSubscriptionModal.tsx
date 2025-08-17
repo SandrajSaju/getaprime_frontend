@@ -98,14 +98,14 @@ const UpgradeSubscriptionModal = ({ setShowUpgradeModal }: { setShowUpgradeModal
                                     </div>
 
                                     {/* ✅ Scrollable Features */}
-                                    <ul className="mt-4 space-y-2 overflow-y-auto flex-1 pr-2">
+                                    <ul className="mt-4 space-y-2 overflow-y-auto flex-1">
                                         {tier.includesText && (
                                             <li className="text-gray-700 font-medium">{tier.includesText}</li>
                                         )}
                                         {tier.features.map((feature: any) => (
                                             <li
                                                 key={feature.id}
-                                                className="flex items-center gap-2 text-gray-700"
+                                                className="flex items-center gap-2 text-gray-700 text-sm"
                                             >
                                                 <svg
                                                     className="w-5 h-5 text-green-500 flex-shrink-0"
