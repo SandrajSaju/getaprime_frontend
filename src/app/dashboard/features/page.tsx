@@ -5,9 +5,11 @@ import { fetchFeatures } from "../../../../redux/slices/profileSlice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { RootState } from "../../../../redux/store";
 import Loader from "@/app/components/Loader";
+import useAuth from "@/hooks/useAuth";
 
 export default function FeaturesPage() {
   const dispatch = useAppDispatch();
+  const { checkingForLoginState } = useAuth();
   const { features, loading, error } = useAppSelector(
     (state: RootState) => state.profile
   );

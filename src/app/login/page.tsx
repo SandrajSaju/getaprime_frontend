@@ -175,30 +175,6 @@ export default function LoginPage() {
                 <p className="text-red-500 text-sm mt-1">{passwordError}</p>
               )}
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm text-gray-700"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <a
-                  onClick={handleForgotPassword}
-                  className="font-medium text-purple-600 hover:text-purple-500 transition duration-150 ease-in-out cursor-pointer"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
             <button
               type="submit"
               className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-lg flex justify-center items-center"

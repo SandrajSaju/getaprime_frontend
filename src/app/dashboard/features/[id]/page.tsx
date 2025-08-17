@@ -6,10 +6,12 @@ import { fetchFeatureDetailsbyId } from "../../../../../redux/slices/profileSlic
 import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import { RootState } from "../../../../../redux/store";
 import Loader from "@/app/components/Loader";
+import useAuth from "@/hooks/useAuth";
 
 export default function FeatureDetailPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const { checkingForLoginState } = useAuth();
   const { featureDetails, featureDetailsLoading, error } = useAppSelector(
       (state: RootState) => state.profile
     );

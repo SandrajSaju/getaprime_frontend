@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { fetchTiersWithFeatures, updateTier } from "../../../../redux/slices/profileSlice";
 import { RootState } from "../../../../redux/store";
 import Loader from "@/app/components/Loader";
+import useAuth from "@/hooks/useAuth";
 
 export default function PricingPage() {
   const dispatch = useAppDispatch();
+  const { checkingForLoginState } = useAuth();
   const { tiers, loading, error, userTierId } = useAppSelector(
     (state: RootState) => state.profile
   );

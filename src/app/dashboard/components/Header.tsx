@@ -2,27 +2,36 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import './Header.css';
 import {
-    IoMdArrowDropdown,
-    IoMdArrowDropup,
     IoMdPerson,
 } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { logout } from "../../../../redux/slices/authSlice";
-import { AvatarIcon, HelpIcon, LogoutIcon, SettingsIcon } from "@/app/components/icons";
 import LogoutModal from "./Logout";
+
+// Function to decode the JWT without external libraries
+const decodeJWT = (token: string) => {
+    try {
+        const base64Url = token.split(".")[1]; // Get the payload part
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // Fix for URL-safe base64
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split("")
+                .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                .join("")
+        );
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        console.error("Failed to decode token", error);
+        return null;
+    }
+};
 
 const Header = () => {
     const dispatch = useAppDispatch();
-    const searchModalRef = useRef<HTMLDivElement>(null);
-    const [userName, setUserName] = useState("");
-    const [userRole, setUserRole] = useState("");
-    const [image, setImage] = useState("");
-    const [userOrganisation, setUserOrganisation] = useState("Luqa");
-    const [userId, setUserId] = useState("");
+    const [userName, setUserName] = useState("Getaprime User");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [searchModalOpen, setSearchModalOpen] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -32,38 +41,22 @@ const Header = () => {
         router.replace("/login");
     };
 
-    const handlePrivacyClick = () => {
-
-    }
-
-    // Close modal when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (searchModalRef.current && !searchModalRef.current.contains(event.target as Node)) {
-                setSearchModalOpen(false);
-            }
-        }
-
-        if (searchModalOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [searchModalOpen]);
-
-    const handleUserProfileClick = () => {
-        if (userId) {
-            setDropdownOpen(false);
-            router.push(`/dashboard/settings`);
-        }
-    };
-
     const handleLogoClick = () => {
         router.push(`/dashboard`);
     };
 
+    useEffect(() => {
+        // Ensure this runs only on the client side
+        if (typeof window !== "undefined") {
+            const token = localStorage.getItem("accessToken");
+            if (token) {
+                const decodedToken: any | null = decodeJWT(token);
+                if (decodedToken) {
+                    setUserName(decodedToken.name || "Getaprime User");
+                }
+            }
+        }
+    }, [])
 
     return (
         <header className="flex items-center justify-between w-full bg-gray-100 border-0 px-4 transition-margin duration-300 min-h-[70px]">
@@ -94,62 +87,10 @@ const Header = () => {
                     >
                         <IoMdPerson className="text-2xl text-white bg-purple-500 rounded-full p-1" />
                         <span className="hidden lg:block text-xs text-gray-700">
-                            <p className="font-bold">{userOrganisation}</p>
+                            <p className="font-bold">{userName}</p>
                         </span>
-                        {dropdownOpen ? (
-                            <IoMdArrowDropup className="text-xl text-gray-700" />
-                        ) : (
-                            <IoMdArrowDropdown className="text-xl text-gray-700" />
-                        )}
                     </div>
-                    {/* Dropdown */}
-                    {dropdownOpen && (
-                        <div className="profile-dropdown">
-                            <div className="top-section">
-                                {image ?
-                                    <img className="pp" src={image} /> :
-                                    <div className="pp-default">{userName[0]}</div>
-                                }
-                                <div className="userdetails-wrapper">
-                                    <p className="username">{userName}</p>
-                                    <p className="user-role">{userRole}</p>
-                                </div>
-                            </div>
-                            <div className="middle-section">
-                                <div
-                                    className="option-container"
-                                    onClick={handleUserProfileClick}>
-                                    <AvatarIcon />
-                                    <p>Profile</p>
-                                </div>
-                                <div
-                                    className="option-container"
-                                    onClick={() => router.push(`/dashboard/settings`)}>
-                                    <SettingsIcon />
-                                    <p>Settings</p>
-                                </div>
-                                <div
-                                    className="option-container"
-                                    onClick={() => router.push(`/dashboard/help`)}>
-                                    <HelpIcon />
-                                    <p>Help</p>
-                                </div>
-                                <div
-                                    className="option-container logout-button"
-                                    onClick={() => setIsModalOpen(true)}>
-                                    <LogoutIcon />
-                                    <p>Logout</p>
-                                </div>
-                            </div>
-                            <ul className="bottom-section">
-                                <li onClick={handlePrivacyClick}>
-                                    Privacy Policy</li>
-                                <li>&#183;</li>
-                                <li onClick={() => router.push(`/policies`)}>
-                                    Terms & Conditions</li>
-                            </ul>
-                        </div>
-                    )}
+
                 </div>
             </div>
             {isModalOpen && (

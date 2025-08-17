@@ -22,8 +22,6 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [sendOtpLoading, setSendOtpLoading] = useState(false);
-    const [verifyOtpLoading, setVerifyOtpLoading] = useState(false);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [formData, setFormData] = useState<FormData>({
@@ -36,71 +34,9 @@ export default function SignUp() {
         "success" | "error" | "info" | "warning"
     >("success");
     const [showToast, setShowToast] = useState(false);
-    const [otpError, setOtpError] = useState("");
-    const [isEmailVerified, setIsEmailVerified] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const dispatch = useAppDispatch();
     const router = useRouter();
-
-    const sendOtp = async () => {
-        try {
-            setSendOtpLoading(true);
-            // Call the backend API to send OTP
-            await AXIOS.post("/auth/send-otp", { email: formData.email });
-            setIsModalOpen(true);
-            setErrors({})
-        } catch (error: any) {
-            let errors: any = {}
-            // Capture the error message from the backend and store it in a variable
-            if (error.response && error.response.data && error.response.data.error) {
-                errors.email = error.response.data.error
-                setErrors(errors)
-            } else {
-                errors.email = "An unknown error occurred"
-                setErrors(errors)
-            }
-            console.error("Failed to send OTP", errors);
-        } finally {
-            setSendOtpLoading(false);
-        }
-    };
-
-    const verifyOtp = async (otp: string) => {
-        try {
-            setVerifyOtpLoading(true);
-            const response = await AXIOS.post("/auth/verify-otp", {
-                email: formData.email,
-                otp,
-            });
-            if (response.data.success) {
-                setToastMessage("OTP Verified Successfully.");
-                setToastType("success");
-                setShowToast(true);
-                setTimeout(() => {
-                    setShowToast(false);
-                }, 3000);
-                setIsEmailVerified(true);
-                setIsModalOpen(false);
-            } else {
-                setToastMessage(response.data.error);
-                setToastType("error");
-                setShowToast(true);
-                setTimeout(() => {
-                    setShowToast(false);
-                }, 3000);
-                setOtpError("Invalid OTP. Please try again.");
-            }
-        } catch (error: any) {
-            if (error.response && error.response.data && error.response.data.error) {
-                setOtpError(error.response.data.error)
-            } else {
-                setOtpError('An unknown error occured')
-            }
-        } finally {
-            setVerifyOtpLoading(false);
-        }
-    };
 
     const handleSignup = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -234,19 +170,6 @@ export default function SignUp() {
     const handleLoginClick = () => {
         router.push("/login");
     };
-
-     const handleSendOtp = async () => {
-        const email = formData.email;
-        if (email) {
-            const result = await sendOtp(); // Assuming `sendOtp` sends the OTP to the backend
-            // setIsModalOpen(true);
-        }
-    };
-
-    const handleVerifyOtp = async (otp: string) => {
-        await verifyOtp(otp); // Pass OTP to verify function
-    };
-
 
     return (
         <>

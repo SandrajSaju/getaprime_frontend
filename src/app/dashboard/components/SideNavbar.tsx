@@ -62,15 +62,9 @@ const SideNavBar: React.FC = () => {
             icon: <BiWallet className="mr-3 text-lg" />,
         },
         {
-            key: "reports",
-            name: "Reports",
-            link: "/reports",
-            icon: <MdOutlineReport className="mr-3 text-lg" />,
-        },
-        {
             key: "settings",
             name: "Settings",
-            link: "/settings",
+            link: "/dashboard/settings",
             icon: <AiOutlineSetting className="mr-3 text-lg" />,
         },
     ];
